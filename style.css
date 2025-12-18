@@ -1,0 +1,503 @@
+/* --- 1. CONFIGURACIÓN GLOBAL --- */
+:root {
+    --cafe-oscuro: #3b2f28;
+    --dorado: #cfa46a;
+    --crema-fondo: #fdfaf5;
+    --texto-suave: #5a4a42;
+    --blanco: #ffffff;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--crema-fondo);
+    color: var(--cafe-oscuro);
+    margin: 0;
+    padding: 0; /* Quitamos el padding global para que el Hero ocupe todo */
+    overflow-x: hidden;
+}
+
+/* --- 2. HERO: Estilo de Lujo y Marca Gigante --- */
+.hero {
+    background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url("imagenes/tabla.png");
+    background-size: cover;
+    background-position: center;
+    height: 85vh; /* Un poco más alto para elegancia */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.hero-texto {
+    background-color: rgba(255, 255, 255, 0.92);
+    padding: 60px 80px;
+    border-radius: 4px; /* Menos redondeado = más boutique */
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    max-width: 800px;
+}
+
+.subtitulo-marca {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-size: 13px;
+    color: var(--dorado);
+    margin-bottom: 15px;
+}
+
+.marca-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 85px; /* Marca imponente */
+    margin: 0;
+    line-height: 1;
+    font-weight: 600;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-top: 20px;
+    font-style: italic;
+    color: var(--texto-suave);
+}
+
+/* --- 3. PILARES: Diseño en Fila --- */
+.pilares {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    padding: 80px 10%;
+    background: var(--blanco);
+}
+
+.pilar {
+    text-align: center;
+    flex: 1;
+}
+
+.pilar-icon {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.pilar h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.pilar p {
+    font-size: 14px;
+    color: var(--texto-suave);
+    line-height: 1.6;
+}
+
+/* --- 4. PRODUCTOS Y TARJETAS --- */
+.seccion-productos {
+    padding: 60px 5%;
+}
+
+.productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.producto {
+    background: var(--blanco);
+    border-radius: 0; /* Estilo minimalista */
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.producto:hover {
+    transform: translateY(-10px);
+}
+
+.etiqueta-lujo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--cafe-oscuro);
+    color: var(--dorado);
+    padding: 6px 15px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    z-index: 10;
+}
+
+.producto img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.info-producto {
+    padding: 25px;
+    text-align: left;
+}
+
+.intensidad {
+    font-size: 12px;
+    color: var(--dorado);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.especificacion {
+    font-size: 14px;
+    color: var(--texto-suave);
+    font-style: italic;
+    margin: 15px 0;
+}
+
+.gramos {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 15px;
+    color: var(--cafe-oscuro);
+    opacity: 0.7;
+}
+
+/* --- 5. CARRITO LATERAL (SIDEBAR) --- */
+.carrito-sidebar {
+    position: fixed;
+    top: 0;
+    right: -450px; /* Escondido */
+    width: 400px;
+    height: 100vh;
+    background: var(--crema-fondo);
+    z-index: 2000;
+    transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.carrito-sidebar.abierto {
+    right: 0;
+}
+
+.carrito-header {
+    padding: 40px 30px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.carrito-items {
+    flex: 1;
+    padding: 20px 30px;
+    overflow-y: auto;
+}
+
+.item-carrito-lateral {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.cantidad-controles {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cantidad-controles button {
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    background: none;
+    border: 1px solid var(--cafe-oscuro);
+    color: var(--cafe-oscuro);
+    border-radius: 50%;
+}
+
+/* --- 6. BOTONES --- */
+.btn-comprar, .btn-pagar-principal {
+    background-color: var(--cafe-oscuro);
+    color: var(--blanco);
+    border: none;
+    padding: 18px;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-comprar:hover {
+    background-color: var(--dorado);
+}
+
+.cart-icon-flotante {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    background: var(--cafe-oscuro);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1500;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* --- 7. OVERLAY --- */
+.overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    z-index: 1900;
+}
+.overlay.activo { display: block; }
+/* --- SECCIÓN CLUB --- */
+.club-seccion {
+    padding: 100px 5%;
+    background-color: #fdfaf5;
+    display: flex;
+    justify-content: center;
+}
+
+.club-tarjeta {
+    background-color: #3b2f28; /* Fondo oscuro para contraste de lujo */
+    color: #ffffff;
+    max-width: 900px;
+    width: 100%;
+    padding: 80px 40px;
+    border-radius: 4px;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* Detalle elegante de fondo */
+.club-decoracion {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 5px;
+    background: linear-gradient(90deg, transparent, #cfa46a, transparent);
+}
+
+.club-tag {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 12px;
+    color: #cfa46a;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.club-tarjeta h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    margin-bottom: 25px;
+    color: #fdfaf5;
+}
+
+.club-tarjeta p {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    font-weight: 300;
+    opacity: 0.9;
+    text-align: center;
+}
+
+/* Formulario mejorado */
+.club-form {
+    display: flex;
+    gap: 10px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.club-form input {
+    flex: 1;
+    padding: 18px 25px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    color: white;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+}
+
+.btn-lujo {
+    background-color: #cfa46a;
+    color: #3b2f28;
+    border: none;
+    padding: 0 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+
+.btn-lujo:hover {
+    background-color: #e2b87e;
+}
+
+.club-footer-nota {
+    display: block;
+    margin-top: 30px;
+    font-size: 11px;
+    opacity: 0.5;
+}
+
+/* --- PIE DE PÁGINA --- */
+.pie-pagina {
+    padding: 60px 5% 30px;
+    background-color: #ffffff;
+    border-top: 1px solid #eee;
+}
+
+.footer-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.footer-marca h3 {
+    font-family: 'Playfair Display', serif;
+    margin: 0;
+}
+
+.footer-links {
+    display: flex;
+    gap: 30px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #3b2f28;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.footer-links a:hover { color: #cfa46a; }
+
+.footer-copyright {
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+}
+.main-nav {
+    background-color: #ffffff;
+    padding: 15px 5%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.nav-contenedor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #3b2f28;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #3b2f28;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: #cfa46a;
+}
+
+/* Estilo del Buscador */
+.nav-busqueda {
+    display: flex;
+    align-items: center;
+    background: #f6f1ea;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+.nav-busqueda input {
+    border: none;
+    background: transparent;
+    padding: 5px;
+    outline: none;
+    font-size: 14px;
+    width: 150px;
+    transition: width 0.4s;
+}
+
+.nav-busqueda input:focus {
+    width: 200px;
+}
+
+.btn-buscar {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 14px;
+}
+/* Esto hace que los quesos "floten" hacia arriba al aparecer */
+.producto[style*="display: block"] {
+    animation: fadeInQueso 0.5s ease forwards;
+}
+
+@keyframes fadeInQueso {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+/* Estilo elegante para el mensaje de "No encontrado" */
+#sin-resultados {
+    background: #fdfaf5; /* Crema suave */
+    border: 1px dashed #cfa46a; /* Borde dorado punteado */
+    border-radius: 12px;
+    margin: 20px auto;
+    max-width: 80% !important;
+    grid-column: 1 / -1; /* Para que ocupe todo el ancho si usas Grid */
+}
