@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Despacho y Pago | Casa Moraga</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="checkout-page">
+        <header class="checkout-header">
+            <h1>Casa Moraga</h1>
+            <p>Finalizar Pedido</p>
+        </header>
+
+        <div class="checkout-grid">
+            <section class="checkout-form">
+                <h3>Información de Despacho</h3>
+                <form id="pay-form">
+                    <div class="input-group">
+                        <label>Nombre Completo</label>
+                        <input type="text" id="nombre" required placeholder="Ej: Juan Pérez">
+                    </div>
+                    <div class="input-group">
+                        <label>Correo Electrónico</label>
+                        <input type="email" id="email" required placeholder="para enviar tu confirmación">
+                    </div>
+                    <div class="input-group">
+                        <label>Dirección de Envío</label>
+                        <input type="text" id="direccion" required placeholder="Calle, Número, Depto">
+                    </div>
+                    <div class="input-group">
+                        <label>Comuna</label>
+                        <input type="text" id="comuna" required placeholder="Ej: Las Condes">
+                    </div>
+                    
+                    <button type="submit" class="btn-pagar-final">Pagar con Mercado Pago / Webpay</button>
+                </form>
+            </section>
+
+            <section class="checkout-resumen">
+                <h3>Resumen de Pedido</h3>
+                <div id="lista-resumen"></div>
+                <div class="total-resumen">
+                    <span>Total a pagar:</span>
+                    <strong id="monto-total"></strong>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // Cargar datos del carrito
+        const total = localStorage.getItem("casaMoraga_total");
+        const carrito = JSON.parse(localStorage.getItem("casaMoraga_carrito")) || [];
+        
+        document.getElementById('monto-total').innerText = `$${parseInt(total).toLocaleString('es-CL')}`;
+        
+        const listaResumen = document.getElementById('lista-resumen');
+        carrito.forEach(p => {
+            listaResumen.innerHTML += `<div class="resumen-item">${p.nombre} x${p.cantidad} <span>$${(p.precio * p.cantidad).toLocaleString('es-CL')}</span></div>`;
+        });
+
+        // Al presionar pagar
+        document.getElementById('pay-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Aquí conectarás con tu "Botón de Pago" de Mercado Pago
+            alert("Redirigiendo a la pasarela de pago segura...");
+            
+            // NOTA: Para un pago real, aquí se genera un link de Mercado Pago
+            // que al pagarse envía automáticamente el correo de confirmación.
+        });
+    </script>
+</body>
+</html>
