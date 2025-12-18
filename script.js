@@ -4,37 +4,20 @@ let total = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
     const inputBuscador = document.getElementById('buscador');
-    const botonLupa = document.querySelector('.btn-buscar'); // Usamos la clase que tienes en tu HTML
+    const botonLupa = document.querySelector('.btn-buscar');
 
-    // 1. Definimos la función que realiza la lógica de filtrado
-    function ejecutarBusqueda(termino) {
-        console.log("Buscando:", termino);
-        
-        // Buscamos todas las tarjetas de productos
-        const productos = document.querySelectorAll('.product-card');
-        
-        productos.forEach(producto => {
-            // Obtenemos el texto del nombre (h3) y la descripción (p)
-            const nombre = producto.querySelector('h3').textContent.toLowerCase();
-            const descripcion = producto.querySelector('p').textContent.toLowerCase();
+    // Inicializar UI del carrito
+    actualizarCarritoUI();
 
-            // Si el término está en el nombre o en la descripción, se muestra
-            if (nombre.includes(termino) || descripcion.includes(termino)) {
-                producto.style.display = "block";
-            } else {
-                producto.style.display = "none";
-            }
-        });
-    }
-
-    // 2. Evento para el clic en la lupa
+    // --- EVENTOS DE BÚSQUEDA ---
     if (botonLupa && inputBuscador) {
+        // Clic en la lupa
         botonLupa.addEventListener('click', () => {
             const valor = inputBuscador.value.toLowerCase().trim();
             ejecutarBusqueda(valor);
         });
 
-        // 3. Evento para la tecla Enter (Vital para celulares)
+        // Tecla Enter (Crucial para celulares)
         inputBuscador.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 const valor = inputBuscador.value.toLowerCase().trim();
@@ -44,32 +27,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- 3. FUNCIÓN DE BÚSQUEDA INTELIGENTE ---
+// --- 2. FUNCIÓN DE BÚSQUEDA INTELIGENTE ---
 function ejecutarBusqueda(termino) {
+    // Usamos '.producto' que es la clase que tienes en tus elementos
     const productos = document.querySelectorAll('.producto');
-    const seccionProductos = document.getElementById('productos');
     let encontrados = 0;
 
-    // Palabras genéricas a ignorar
     const palabrasGenericas = ["queso", "quesos", "de", "con", "la", "el", "un", "una", "del"];
-    
-    // Crear array de palabras clave útiles
     const palabrasClave = termino.split(" ").filter(palabra => 
         !palabrasGenericas.includes(palabra) && palabra.length > 0
     );
 
     productos.forEach(producto => {
-        // Obtenemos título y descripción para una búsqueda más profunda
         const titulo = producto.querySelector('h3')?.innerText.toLowerCase() || "";
         const descripcion = producto.querySelector('.especificacion')?.innerText.toLowerCase() || "";
         const textoCombinado = titulo + " " + descripcion + " " + producto.textContent.toLowerCase();
 
-        // LÓGICA DE VISIBILIDAD
         if (termino === "" || (palabrasClave.length === 0 && termino.includes("queso"))) {
             producto.style.display = "block";
             encontrados++;
         } else {
-            // Verifica si alguna palabra clave coincide con el texto del producto
             const coincide = palabrasClave.some(p => textoCombinado.includes(p));
             if (coincide) {
                 producto.style.display = "block";
@@ -83,7 +60,7 @@ function ejecutarBusqueda(termino) {
     gestionarMensajeNoResultados(encontrados, termino);
 }
 
-// --- 4. CARRITO Y SIDEBAR ---
+// --- 3. CARRITO Y SIDEBAR ---
 function agregarAlCarrito(nombre, precio) {
     const productoExistente = carrito.find(p => p.nombre === nombre);
     if (productoExistente) {
@@ -143,7 +120,7 @@ function toggleCarrito() {
     document.getElementById('overlay')?.classList.toggle('activo');
 }
 
-// --- 5. FILTROS Y MENSAJES ---
+// --- 4. FILTROS Y MENSAJES ---
 function filtrar(categoria) {
     const productos = document.querySelectorAll('.producto');
     productos.forEach(prod => {
@@ -153,7 +130,7 @@ function filtrar(categoria) {
 }
 
 function gestionarMensajeNoResultados(cantidad, termino) {
-    const contenedor = document.querySelector('.productos');
+    const contenedor = document.querySelector('.productos-grid') || document.querySelector('.productos');
     let mensaje = document.getElementById('sin-resultados');
     
     if (cantidad === 0 && termino !== "") {
