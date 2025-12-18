@@ -11,88 +11,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // CONECTAR EL BUSCADOR
     const buscadorInput = document.getElementById('buscador');
+    const btnBuscar = document.querySelector('.btn-buscar');
+
     if (buscadorInput) {
+        // Buscar mientras escribes
         buscadorInput.addEventListener('input', (e) => {
             const termino = e.target.value.toLowerCase().trim();
             ejecutarBusqueda(termino);
         });
+
+        // Buscar al presionar Enter
+        buscadorInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                ejecutarBusqueda(buscadorInput.value.toLowerCase().trim());
+            }
+        });
+    }
+
+    if (btnBuscar && buscadorInput) {
+        btnBuscar.addEventListener('click', () => {
+            ejecutarBusqueda(buscadorInput.value.toLowerCase().trim());
+        });
     }
 });
 
-// --- 3. FUNCIÓN DE BÚSQUEDA INTELIGENTE ---
 // --- 3. FUNCIÓN DE BÚSQUEDA INTELIGENTE ---
 function ejecutarBusqueda(termino) {
     const productos = document.querySelectorAll('.producto');
     const seccionProductos = document.getElementById('productos');
     let encontrados = 0;
 
-    // 1. Scroll automático al escribir (DESACTIVADO: Por eso el //)
-    // Se comenta para evitar que la pantalla salte y te deje escribir tranquilo
-    /* if (termino.length > 1 && seccionProductos) {
-        seccionProductos.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    */
-
-    // 2. Palabras que vamos a omitir
+    // Palabras genéricas a ignorar
     const palabrasGenericas = ["queso", "quesos", "de", "con", "la", "el", "un", "una", "del"];
     
-    // 3. Limpiar el término y filtrar palabras vacías
-    const palabrasClave = termino.toLowerCase().split(" ").filter(palabra => 
+    // Crear array de palabras clave útiles
+    const palabrasClave = termino.split(" ").filter(palabra => 
         !palabrasGenericas.includes(palabra) && palabra.length > 0
     );
 
-    // 4. LÓGICA DE FILTRADO (Lo que faltaba para que busque de verdad)
     productos.forEach(producto => {
-        // Obtenemos el texto del producto (título y descripción)
-        const textoProducto = producto.textContent.toLowerCase();
-        
-        // Si no hay palabras clave (buscador vacío), mostramos todo
-        if (palabrasClave.length === 0) {
-            producto.style.display = 'block';
-            encontrados++;
-            return;
-        }
-
-        // Comprobamos si el producto contiene alguna de las palabras clave
-        const coincide = palabrasClave.some(palabra => textoProducto.includes(palabra));
-
-        if (coincide) {
-            producto.style.display = 'block';
-            encontrados++;
-        } else {
-            producto.style.display = 'none';
-        }
-    });
-
-    // 5. MENSAJE DE RESULTADOS NO ENCONTRADOS
-    let mensajeNoResultados = document.getElementById('sin-resultados');
-    if (encontrados === 0 && termino !== "") {
-        if (!mensajeNoResultados) {
-            mensajeNoResultados = document.createElement('div');
-            mensajeNoResultados.id = 'sin-resultados';
-            mensajeNoResultados.innerHTML = `<p style="text-align:center; padding:40px; width:100%; color:#5a4a42;">
-                No encontramos productos que coincidan con "${termino}"</p>`;
-            if (seccionProductos) seccionProductos.appendChild(mensajeNoResultados);
-        }
-    } else if (mensajeNoResultados) {
-        mensajeNoResultados.remove();
-    }
-}
-
-    productos.forEach(producto => {
+        // Obtenemos título y descripción para una búsqueda más profunda
         const titulo = producto.querySelector('h3')?.innerText.toLowerCase() || "";
         const descripcion = producto.querySelector('.especificacion')?.innerText.toLowerCase() || "";
-        const textoCombinado = titulo + " " + descripcion;
+        const textoCombinado = titulo + " " + descripcion + " " + producto.textContent.toLowerCase();
 
-        // LÓGICA INTELIGENTE:
-        // A. Si el buscador está vacío, mostrar todo.
-        // B. Si el usuario escribió "queso" (que filtramos y dejó la lista vacía), mostrar todo.
-        // C. Si hay palabras específicas (como "azul"), filtrar por ellas.
-        
+        // LÓGICA DE VISIBILIDAD
         if (termino === "" || (palabrasClave.length === 0 && termino.includes("queso"))) {
             producto.style.display = "block";
             encontrados++;
         } else {
+            // Verifica si alguna palabra clave coincide con el texto del producto
             const coincide = palabrasClave.some(p => textoCombinado.includes(p));
             if (coincide) {
                 producto.style.display = "block";
@@ -116,7 +85,6 @@ function agregarAlCarrito(nombre, precio) {
     }
     actualizarCarritoUI();
     
-    // Abrir automáticamente al agregar
     const sidebar = document.getElementById('carrito-lateral');
     if (sidebar && !sidebar.classList.contains('abierto')) toggleCarrito();
 }
@@ -187,48 +155,19 @@ function gestionarMensajeNoResultados(cantidad, termino) {
             mensaje.style.gridColumn = "1 / -1";
             mensaje.style.textAlign = "center";
             mensaje.style.padding = "40px";
-            mensaje.innerHTML = `<p style="color:#8b5e3c; font-style:italic;">No encontramos resultados exactos para "${termino}". <br> <small>Pruebe con palabras simples como "Azul" o "Brie".</small></p>`;
+            mensaje.innerHTML = `<p style="color:#8b5e3c; font-style:italic;">No encontramos resultados para "${termino}". <br> <small>Pruebe con palabras simples como "Azul" o "Brie".</small></p>`;
             contenedor.appendChild(mensaje);
         }
     } else if (mensaje) {
         mensaje.remove();
     }
 }
+
 function finalizarCompra() {
     if (carrito.length === 0) {
         alert("Tu selección está vacía.");
         return;
     }
-    // Guardamos el carrito y el total para usarlos en la página de pago
     localStorage.setItem("casaMoraga_total", total);
-    // Redirigir a la página de datos de envío y pago
     window.location.href = "checkout.html";
 }
-// --- CONEXIÓN DEL BUSCADOR ---
-document.addEventListener("DOMContentLoaded", () => {
-    const buscadorInput = document.getElementById('buscador');
-    const btnBuscar = document.querySelector('.btn-buscar');
-
-    if (buscadorInput) {
-        // Opción A: Buscar mientras escribes (Tiempo real)
-        buscadorInput.addEventListener('input', (e) => {
-            const termino = e.target.value.toLowerCase();
-            ejecutarBusqueda(termino);
-        });
-
-        // Opción B: Buscar al presionar Enter
-        buscadorInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault(); // Evita que la página se recargue
-                ejecutarBusqueda(buscadorInput.value.toLowerCase());
-            }
-        });
-    }
-
-    // Opción C: Buscar al hacer clic en la lupa
-    if (btnBuscar) {
-        btnBuscar.addEventListener('click', () => {
-            ejecutarBusqueda(buscadorInput.value.toLowerCase());
-        });
-    }
-});
