@@ -25,6 +25,9 @@ function ejecutarBusqueda(termino) {
     const seccionProductos = document.getElementById('productos');
     let encontrados = 0;
 
+    // 1. Scroll automático al escribir
+    if (termino.length > 1 && seccionProductos) {
+        seccionProductos.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     // 2. Palabras que vamos a omitir porque son genéricas en tu tienda
