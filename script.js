@@ -20,23 +20,64 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // --- 3. FUNCIÓN DE BÚSQUEDA INTELIGENTE ---
+// --- 3. FUNCIÓN DE BÚSQUEDA INTELIGENTE ---
 function ejecutarBusqueda(termino) {
     const productos = document.querySelectorAll('.producto');
     const seccionProductos = document.getElementById('productos');
     let encontrados = 0;
 
-    // 1. Scroll automático al escribir
-    if (termino.length > 1 && seccionProductos) {
+    // 1. Scroll automático al escribir (DESACTIVADO: Por eso el //)
+    // Se comenta para evitar que la pantalla salte y te deje escribir tranquilo
+    /* if (termino.length > 1 && seccionProductos) {
         seccionProductos.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+    */
 
-    // 2. Palabras que vamos a omitir porque son genéricas en tu tienda
+    // 2. Palabras que vamos a omitir
     const palabrasGenericas = ["queso", "quesos", "de", "con", "la", "el", "un", "una", "del"];
     
-    // 3. Limpiar el término
-    const palabrasClave = termino.split(" ").filter(palabra => 
+    // 3. Limpiar el término y filtrar palabras vacías
+    const palabrasClave = termino.toLowerCase().split(" ").filter(palabra => 
         !palabrasGenericas.includes(palabra) && palabra.length > 0
     );
+
+    // 4. LÓGICA DE FILTRADO (Lo que faltaba para que busque de verdad)
+    productos.forEach(producto => {
+        // Obtenemos el texto del producto (título y descripción)
+        const textoProducto = producto.textContent.toLowerCase();
+        
+        // Si no hay palabras clave (buscador vacío), mostramos todo
+        if (palabrasClave.length === 0) {
+            producto.style.display = 'block';
+            encontrados++;
+            return;
+        }
+
+        // Comprobamos si el producto contiene alguna de las palabras clave
+        const coincide = palabrasClave.some(palabra => textoProducto.includes(palabra));
+
+        if (coincide) {
+            producto.style.display = 'block';
+            encontrados++;
+        } else {
+            producto.style.display = 'none';
+        }
+    });
+
+    // 5. MENSAJE DE RESULTADOS NO ENCONTRADOS
+    let mensajeNoResultados = document.getElementById('sin-resultados');
+    if (encontrados === 0 && termino !== "") {
+        if (!mensajeNoResultados) {
+            mensajeNoResultados = document.createElement('div');
+            mensajeNoResultados.id = 'sin-resultados';
+            mensajeNoResultados.innerHTML = `<p style="text-align:center; padding:40px; width:100%; color:#5a4a42;">
+                No encontramos productos que coincidan con "${termino}"</p>`;
+            if (seccionProductos) seccionProductos.appendChild(mensajeNoResultados);
+        }
+    } else if (mensajeNoResultados) {
+        mensajeNoResultados.remove();
+    }
+}
 
     productos.forEach(producto => {
         const titulo = producto.querySelector('h3')?.innerText.toLowerCase() || "";
