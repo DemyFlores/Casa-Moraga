@@ -554,3 +554,23 @@ html, body {
         margin-top: auto;
     }
 }
+/* --- MEJORA DE ESTABILIDAD AL BUSCAR --- */
+@media (max-width: 600px) {
+    /* 1. Mantenemos el menú siempre arriba para que no salte al escribir */
+    .main-nav {
+        position: sticky !important;
+        top: 0;
+        z-index: 1100;
+    }
+
+    /* 2. Evitamos el zoom automático en iPhone/Android que mueve la pantalla */
+    .nav-busqueda input {
+        font-size: 16px !important; /* A partir de 16px los móviles no hacen "salto de zoom" */
+    }
+
+    /* 3. Le damos una altura mínima a la sección de quesos */
+    /* Esto evita que si buscas algo y no hay resultados, el pie de página suba bruscamente */
+    .seccion-productos {
+        min-height: 80vh; 
+    }
+}
