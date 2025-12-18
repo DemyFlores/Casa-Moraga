@@ -204,3 +204,31 @@ function finalizarCompra() {
     // Redirigir a la página de datos de envío y pago
     window.location.href = "checkout.html";
 }
+// --- CONEXIÓN DEL BUSCADOR ---
+document.addEventListener("DOMContentLoaded", () => {
+    const buscadorInput = document.getElementById('buscador');
+    const btnBuscar = document.querySelector('.btn-buscar');
+
+    if (buscadorInput) {
+        // Opción A: Buscar mientras escribes (Tiempo real)
+        buscadorInput.addEventListener('input', (e) => {
+            const termino = e.target.value.toLowerCase();
+            ejecutarBusqueda(termino);
+        });
+
+        // Opción B: Buscar al presionar Enter
+        buscadorInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Evita que la página se recargue
+                ejecutarBusqueda(buscadorInput.value.toLowerCase());
+            }
+        });
+    }
+
+    // Opción C: Buscar al hacer clic en la lupa
+    if (btnBuscar) {
+        btnBuscar.addEventListener('click', () => {
+            ejecutarBusqueda(buscadorInput.value.toLowerCase());
+        });
+    }
+});
