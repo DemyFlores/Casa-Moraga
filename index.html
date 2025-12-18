@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casa Moraga | Quesos de Autor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="top-banner">
+        <p>Despacho gratuito en pedidos sobre $40.000 — <span>Selección de Cava disponible</span></p>
+    </div>
+
+    <nav class="main-nav">
+        <div class="nav-contenedor">
+            <div class="nav-logo">CM</div>
+
+            <ul class="nav-links">
+                <li><a href="#productos">Nuestra Cava</a></li>
+                <li><a href="#club">El Club</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <div class="nav-busqueda">
+              <input type="text" id="buscador" placeholder="Buscar un queso...">
+              <button class="btn-buscar">🔍</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-texto">
+            <span class="subtitulo-marca">Quesos artesanales seleccionados</span>
+            <h1 class="marca-titulo">Casa Moraga</h1>
+            <p>Sabores de origen, tablas y experiencias para compartir.</p>
+            <a href="#productos" class="btn-principal">Descubrir la selección</a>
+        </div>
+    </header>
+
+    <section class="pilares">
+        <div class="pilar">
+            <span class="pilar-icon">🌿</span>
+            <h4>Origen Natural</h4>
+            <p>Directo del campo a su mesa.</p>
+        </div>
+        <div class="pilar">
+            <span class="pilar-icon">👨‍👩‍👧</span>
+            <h4>Herencia Familiar</h4>
+            <p>Curaduría con amor y oficio.</p>
+        </div>
+        <div class="pilar">
+            <span class="pilar-icon">✨</span>
+            <h4>Calidad Premium</h4>
+            <p>Maduración en tiempos perfectos.</p>
+        </div>
+    </section>
+
+    <nav class="categorias">
+        <button class="btn-filtro activo" onclick="filtrar('todos')">Todos</button>
+        <button class="btn-filtro" onclick="filtrar('cremosos')">Cremosos</button>
+        <button class="btn-filtro" onclick="filtrar('maduros')">Maduros</button>
+    </nav>
+
+    <section id="productos" class="seccion-productos">
+        <div class="productos">
+            <div class="producto" data-categoria="cremosos">
+                <div class="etiqueta-lujo">Artesanal</div>
+                <img src="imagenes/brie.jpg" alt="Queso Brie Reserva">
+                <div class="info-producto">
+                    <span class="intensidad">Suave 🧀</span>
+                    <h3>Queso Brie Reserva</h3>
+                    <p class="especificacion">Textura aterciopelada y corazón cremoso con sutiles notas de hongo blanco.</p>
+                    <span class="gramos">250 grs.</span>
+                    <p class="precio"><strong>$8.990</strong></p>
+                    <button class="btn-comprar" onclick="agregarAlCarrito('Queso Brie Reserva', 8990)">
+                        Añadir a la selección
+                    </button>
+                </div>
+            </div>
+
+            <div class="producto" data-categoria="maduros">
+                <div class="etiqueta-lujo">Selección</div>
+                <img src="imagenes/quesoazul.jpg" alt="Queso Azul">
+                <div class="info-producto">
+                    <span class="intensidad">Fuerte 🔥</span>
+                    <h3>Azul de Campo</h3>
+                    <p class="especificacion">Carácter intenso con vetas azules profundas, ofreciendo un equilibrio perfecto entre picor y cremosidad.</p>
+                    <span class="gramos">200 grs.</span>
+                    <p class="precio"><strong>$9.990</strong></p>
+                    <button class="btn-comprar" onclick="agregarAlCarrito('Azul de Campo', 9990)">
+                        Añadir a la selección
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="club" class="club-seccion">
+        <div class="club-tarjeta">
+            <div class="club-decoracion"></div>
+            <div class="club-contenido">
+                <span class="club-tag">Membresía Privada</span>
+                <h2>Únete al Club Casa Moraga</h2>
+                <p>Forme parte de nuestra comunidad exclusiva. Reciba selecciones de temporada, notas de cata y acceso anticipado a ediciones limitadas.</p>
+                
+                <form class="club-form" onsubmit="event.preventDefault(); alert('Solicitud enviada');">
+                    <input type="email" placeholder="Su correo electrónico" required>
+                    <button type="submit" class="btn-lujo">Solicitar Ingreso</button>
+                </form>
+                <span class="club-footer-nota">Al unirse, acepta nuestra política de membresía selecta.</span>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto" class="pie-pagina">
+        <div class="footer-grid">
+            <div class="footer-marca">
+                <h3>Casa Moraga</h3>
+                <p>Quesos de autor con tradición familiar.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">Contacto</a>
+                <a href="#">Envíos</a>
+                <a href="#">Términos</a>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2025 Casa Moraga. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <div class="cart-icon-flotante" onclick="toggleCarrito()">
+        <span class="icon">🛒</span>
+        <span id="cart-count">0</span>
+    </div>
+
+    <div id="carrito-lateral" class="carrito-sidebar">
+        <div class="carrito-header">
+            <h3>Su Selección</h3>
+            <button class="btn-cerrar" onclick="toggleCarrito()" style="background:none; border:none; font-size:24px; cursor:pointer;">✕</button>
+        </div>
+        
+        <div id="lista-carrito-sidebar" class="carrito-items">
+            </div>
+
+        <div class="carrito-footer">
+            <div class="total-fila" style="display:flex; justify-content:space-between; padding: 20px 0; font-weight:bold;">
+                <span>Total:</span>
+                <span id="total-sidebar">$0</span>
+            </div>
+            <button class="btn-pagar-principal" onclick="alert('Iniciando pago...')">
+                Finalizar Selección
+            </button>
+        </div>
+    </div>
+
+    <div id="overlay" class="overlay" onclick="toggleCarrito()"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
