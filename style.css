@@ -506,3 +506,43 @@ html, body {
     overflow-x: hidden;
     position: relative;
 }
+
+/* --- ARREGLOS DE RESPONSIVIDAD ESPECÍFICOS --- */
+
+@media (max-width: 768px) {
+    /* 1. Evita que el título gigante rompa el ancho en celulares */
+    .marca-titulo {
+        font-size: 45px !important; /* Bajamos de 85px a 45px solo en móvil */
+    }
+
+    /* 2. Ajustamos el cuadro blanco para que no sea tan ancho */
+    .hero-texto {
+        padding: 30px 20px !important;
+        margin: 0 15px;
+    }
+
+    /* 3. El carrito ahora se adapta al ancho de tu celular */
+    .carrito-sidebar {
+        width: 100% !important; /* Ocupa todo el ancho para que no se corte */
+        right: -100% !important; /* Se esconde fuera de la pantalla correctamente */
+    }
+
+    .carrito-sidebar.abierto {
+        right: 0 !important;
+    }
+
+    /* 4. Los pilares (Origen, Herencia, Calidad) se ponen uno bajo el otro */
+    .pilares {
+        flex-direction: column;
+        padding: 40px 5%;
+    }
+
+    /* 5. El formulario del Club se ajusta al ancho del celular */
+    .club-form {
+        flex-direction: column;
+    }
+    
+    .btn-lujo {
+        padding: 15px;
+    }
+}
