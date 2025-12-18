@@ -4,34 +4,42 @@ let total = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
     const inputBuscador = document.getElementById('buscador');
-    const botonLupa = document.getElementById('btn-lupa');
+    const botonLupa = document.querySelector('.btn-buscar'); // Usamos la clase que tienes en tu HTML
 
-    // Esta es la función que hace el trabajo
-    function realizarBusqueda() {
-        const termino = inputBuscador.value.toLowerCase().trim();
+    // 1. Definimos la función que realiza la lógica de filtrado
+    function ejecutarBusqueda(termino) {
+        console.log("Buscando:", termino);
         
-        // Aquí llamas a tu función lógica de búsqueda
-        if (typeof ejecutarBusqueda === "function") {
-            ejecutarBusqueda(termino);
-        } else {
-            console.error("La función ejecutarBusqueda no está definida en tu script.");
-        }
+        // Buscamos todas las tarjetas de productos
+        const productos = document.querySelectorAll('.product-card');
+        
+        productos.forEach(producto => {
+            // Obtenemos el texto del nombre (h3) y la descripción (p)
+            const nombre = producto.querySelector('h3').textContent.toLowerCase();
+            const descripcion = producto.querySelector('p').textContent.toLowerCase();
+
+            // Si el término está en el nombre o en la descripción, se muestra
+            if (nombre.includes(termino) || descripcion.includes(termino)) {
+                producto.style.display = "block";
+            } else {
+                producto.style.display = "none";
+            }
+        });
     }
 
-    // Escuchar el clic en la lupa
-    botonLupa.addEventListener('click', realizarBusqueda);
+    // 2. Evento para el clic en la lupa
+    if (botonLupa && inputBuscador) {
+        botonLupa.addEventListener('click', () => {
+            const valor = inputBuscador.value.toLowerCase().trim();
+            ejecutarBusqueda(valor);
+        });
 
-    // Escuchar la tecla Enter (fundamental para celulares)
-    inputBuscador.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            realizarBusqueda();
-        }
-    });
-});
-
-    if (btnBuscar && buscadorInput) {
-        btnBuscar.addEventListener('click', () => {
-            ejecutarBusqueda(buscadorInput.value.toLowerCase().trim());
+        // 3. Evento para la tecla Enter (Vital para celulares)
+        inputBuscador.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const valor = inputBuscador.value.toLowerCase().trim();
+                ejecutarBusqueda(valor);
+            }
         });
     }
 });
