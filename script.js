@@ -2,32 +2,32 @@
 let carrito = JSON.parse(localStorage.getItem("casaMoraga_carrito")) || [];
 let total = 0;
 
-// --- 2. INICIALIZACIÓN MAESTRA ---
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("Casa Moraga: Sistema cargado.");
-    
-    // Inicializar visualmente el carrito al cargar
-    actualizarCarritoUI();
+document.addEventListener('DOMContentLoaded', () => {
+    const inputBuscador = document.getElementById('buscador');
+    const botonLupa = document.getElementById('btn-lupa');
 
-    // CONECTAR EL BUSCADOR
-    const buscadorInput = document.getElementById('buscador');
-    const btnBuscar = document.querySelector('.btn-buscar');
-
-    if (buscadorInput) {
-        // Buscar mientras escribes
-        buscadorInput.addEventListener('input', (e) => {
-            const termino = e.target.value.toLowerCase().trim();
+    // Esta es la función que hace el trabajo
+    function realizarBusqueda() {
+        const termino = inputBuscador.value.toLowerCase().trim();
+        
+        // Aquí llamas a tu función lógica de búsqueda
+        if (typeof ejecutarBusqueda === "function") {
             ejecutarBusqueda(termino);
-        });
-
-        // Buscar al presionar Enter
-        buscadorInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                ejecutarBusqueda(buscadorInput.value.toLowerCase().trim());
-            }
-        });
+        } else {
+            console.error("La función ejecutarBusqueda no está definida en tu script.");
+        }
     }
+
+    // Escuchar el clic en la lupa
+    botonLupa.addEventListener('click', realizarBusqueda);
+
+    // Escuchar la tecla Enter (fundamental para celulares)
+    inputBuscador.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            realizarBusqueda();
+        }
+    });
+});
 
     if (btnBuscar && buscadorInput) {
         btnBuscar.addEventListener('click', () => {
