@@ -24,8 +24,8 @@
             </ul>
 
             <div class="nav-busqueda">
-              <input type="text" id="buscador" placeholder="Buscar un queso...">
-              <button class="btn-buscar">🔍</button>
+              <input type="text" id="buscador" placeholder="Buscar un queso..." autocomplete="off">
+              <button class="btn-buscar" onclick="ejecutarBusqueda(document.getElementById('buscador').value.toLowerCase())">🔍</button>
             </div>
         </div>
     </nav>
@@ -63,8 +63,8 @@
         <button class="btn-filtro" onclick="filtrar('maduros')">Maduros</button>
     </nav>
 
-    <section id="productos" class="seccion-productos">
-        <div class="productos">
+    <section id="seccion-principal-productos" class="seccion-productos">
+        <div id="productos" class="productos">
             <div class="producto" data-categoria="cremosos">
                 <div class="etiqueta-lujo">Artesanal</div>
                 <img src="imagenes/brie.jpg" alt="Queso Brie Reserva">
@@ -142,15 +142,14 @@
             <button class="btn-cerrar" onclick="toggleCarrito()" style="background:none; border:none; font-size:24px; cursor:pointer;">✕</button>
         </div>
         
-        <div id="lista-carrito-sidebar" class="carrito-items">
-            </div>
+        <div id="lista-carrito-sidebar" class="carrito-items"></div>
 
         <div class="carrito-footer">
             <div class="total-fila" style="display:flex; justify-content:space-between; padding: 20px 0; font-weight:bold;">
                 <span>Total:</span>
                 <span id="total-sidebar">$0</span>
             </div>
-            <button class="btn-pagar-principal" onclick="alert('Iniciando pago...')">
+            <button class="btn-pagar-principal" onclick="finalizarCompra()">
                 Finalizar Selección
             </button>
         </div>
